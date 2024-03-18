@@ -1,5 +1,8 @@
 function gameBoard(boardArray) {
     
+    // initialize board
+    const initializeBoard = () => boardArray = [['_','_','_'], ['_','_','_'], ['_','_','_']];
+    
     // get cell reference
     const getCell = (cell) =>{
         cellReferenceArray = cell.split('-');
@@ -88,15 +91,14 @@ function gameBoard(boardArray) {
         };
     }; //end of colCheck
 
-    return {playerSelect, getBoard, checkRow, checkCol};
+    return {playerSelect, getBoard, checkRow, checkCol, initializeBoard};
 
 };
 
 // run the game
 let initBoard = [['_','_','_'], ['_','_','_'], ['_','_','_']];
-let initBoard2 = [['_','_','_'], ['_','_','_'], ['_','_','_']];
 const game1 = gameBoard(initBoard);
-const game2 = gameBoard(initBoard2);
+
 
 // row pattern
 game1.playerSelect('1-2','x');
@@ -110,12 +112,14 @@ game1.playerSelect('2-3','o');
 game1.checkRow();
 
 // column pattern
-game2.playerSelect('1-2','x');
-game2.playerSelect('2-2','o');
-game2.playerSelect('3-2','o');
-game2.checkCol();
+game1.initializeBoard();
 
-game2.playerSelect('1-1','x');
-game2.playerSelect('2-1','x');
-game2.playerSelect('3-1','x');
-game2.checkCol();
+game1.playerSelect('1-2','x');
+game1.playerSelect('2-2','o');
+game1.playerSelect('3-2','o');
+game1.checkCol();
+
+game1.playerSelect('1-1','x');
+game1.playerSelect('2-1','x');
+game1.playerSelect('3-1','x');
+game1.checkCol();
