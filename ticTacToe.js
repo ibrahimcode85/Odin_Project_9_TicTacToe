@@ -137,6 +137,9 @@ function gameBoard() {
 
 };
 
+// to check if all array has been filled by marker. i.e '-' doesn't exists
+//arrayTest.some(marker => marker.includes('-'))
+
 // run the game
 // let initBoard = [['_','_','_'], ['_','_','_'], ['_','_','_']];
 const game1 = gameBoard();
