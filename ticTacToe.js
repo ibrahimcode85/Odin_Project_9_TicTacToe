@@ -1,5 +1,8 @@
-function gameBoard(boardArray) {
+function gameBoard() {
     
+    // set initial board state
+    let boardArray = [['_','_','_'], ['_','_','_'], ['_','_','_']];
+
     // initialize board
     const initializeBoard = () => boardArray = [['_','_','_'], ['_','_','_'], ['_','_','_']];
     
@@ -135,8 +138,8 @@ function gameBoard(boardArray) {
 };
 
 // run the game
-let initBoard = [['_','_','_'], ['_','_','_'], ['_','_','_']];
-const game1 = gameBoard(initBoard);
+// let initBoard = [['_','_','_'], ['_','_','_'], ['_','_','_']];
+const game1 = gameBoard();
 
 
 // row pattern
