@@ -150,7 +150,20 @@ const gamePlay = (event) => {
     
     // get player selection
     let playerSelect = event.target.className; 
-        
+
+    // exit function if its not a cell (class includes substring '-' as in '1-3')
+    if (!playerSelect.includes('-')){
+        return;
+    };
+    
+    // get cell id
+    let cellID = event.target.id;
+
+    // exit function if id is already being marked
+    if (cellID !== '-'){
+        return;
+    };
+
     // mark player selection
     game.playerMark(playerSelect, playerMarker);
     display.markerDisplay(playerSelect, playerMarker);
@@ -185,6 +198,9 @@ const gameDisplay = () =>{
         const htmlCell = document.querySelector(htmlSelect);
         htmlCell.appendChild(markerElement);
 
+        // update class id with 'playerMarked'
+        htmlCell.setAttribute('id','playerMarked');
+
     };
     
     // display marker in html
@@ -200,14 +216,17 @@ const gameDisplay = () =>{
         switch (marker){
             case 'x':
                 htmlCell.style.backgroundImage = 'url("./Assets/x.png")';
+                htmlCell.setAttribute('id','x');
                 break;
             
             case 'o':
                 htmlCell.style.backgroundImage = 'url("./Assets/o.png")';
+                htmlCell.setAttribute('id','o');
                 break;
 
             default:
                 htmlCell.style.backgroundImage = '';
+                htmlCell.setAttribute('id','-');
                 break;
         }; 
     };
