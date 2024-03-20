@@ -16,7 +16,7 @@ function gameBoard() {
     }
     
     // mark player's selected cell
-    const playerSelect = (cell,marker) => {
+    const playerMark = (cell,marker) => {
 
         cellValue = getCell(cell);
 
@@ -133,56 +133,51 @@ function gameBoard() {
 
     };
 
-    return {playerSelect, getBoard, checkRow, checkCol, checkCross, initializeBoard};
+    return {playerMark, getBoard, checkRow, checkCol, checkCross, initializeBoard};
 
 };
 
-// to check if all array has been filled by marker. i.e '-' doesn't exists
-//arrayTest.some(marker => marker.includes('-'))
+// function gameControl() {
 
-// run the game
-// let initBoard = [['_','_','_'], ['_','_','_'], ['_','_','_']];
-const game1 = gameBoard();
+//     const gameCell = document.querySelector('div[class="1-1"]');
+//     gameCell.addEventListener('click', playerSelect);
 
+//     const playerSelect = (event) => {
+//        return event.target.className; 
+//     };
 
-// row pattern
-game1.playerSelect('1-2','x');
-game1.playerSelect('1-1','o');
-game1.playerSelect('1-3','o');
-game1.checkRow();
-game1.checkCol();
-game1.checkCross();
+//     return {playerSelect};
 
-game1.playerSelect('2-1','o');
-game1.playerSelect('2-2','o');
-game1.playerSelect('2-3','o');
-game1.checkRow();
-game1.checkCol();
-game1.checkCross();
+// };
 
-// column pattern
-game1.initializeBoard();
+const gamePlay = (event) => {
 
-game1.playerSelect('1-2','x');
-game1.playerSelect('2-2','o');
-game1.playerSelect('3-2','o');
-game1.checkRow();
-game1.checkCol();
-game1.checkCross();
+    // get player selection
+    playerSelect = event.target.className; 
+        
+    // mark player selection
+    game.playerMark(playerSelect, playerMarker);
 
-game1.playerSelect('1-1','x');
-game1.playerSelect('2-1','x');
-game1.playerSelect('3-1','x');
-game1.checkRow();
-game1.checkCol();
-game1.checkCross();
+    // check winning pattern
+    game.checkRow()
+    game.checkCol()
+    game.checkCross()
 
-// cross pattern
-game1.initializeBoard();
+    // update gameCount
+    gameCount += 1;
 
-game1.playerSelect('1-3','o');
-game1.playerSelect('2-2','o');
-game1.playerSelect('3-1','o');
-game1.checkRow();
-game1.checkCol();
-game1.checkCross();
+    // update Marker for next player
+    playerMarker = 'o';
+
+    //show board
+    game.getBoard();
+
+};
+
+const game = gameBoard();
+let gameCount = 0;
+let playerMarker = 'x'
+
+// add event listener
+gameArea = document.querySelector('.game-area');
+gameArea.addEventListener('click',gamePlay);

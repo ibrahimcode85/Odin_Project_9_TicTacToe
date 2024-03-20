@@ -45,6 +45,3 @@
     background-size: contain;
     background-image: url('o-green.png');
 }
-.grid-container > div[class*="1-"]{
-    background-color: lightgreen;
-}
