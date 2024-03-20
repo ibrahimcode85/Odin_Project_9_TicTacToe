@@ -28,6 +28,15 @@ function gameBoard() {
     
     };
 
+    // updateMarker
+    const changeMarker = (marker) =>{
+        if (marker === 'x'){
+            return 'o';
+        }else{
+            return 'x';
+        };
+    };
+    
     // get updated board
     const getBoard = () => {console.log(boardArray)};
 
@@ -133,48 +142,84 @@ function gameBoard() {
 
     };
 
-    return {playerMark, getBoard, checkRow, checkCol, checkCross, initializeBoard};
+    return {playerMark, getBoard, checkRow, checkCol, checkCross, initializeBoard, changeMarker};
 
 };
 
-// function gameControl() {
-
-//     const gameCell = document.querySelector('div[class="1-1"]');
-//     gameCell.addEventListener('click', playerSelect);
-
-//     const playerSelect = (event) => {
-//        return event.target.className; 
-//     };
-
-//     return {playerSelect};
-
-// };
-
 const gamePlay = (event) => {
-
+    
     // get player selection
-    playerSelect = event.target.className; 
+    let playerSelect = event.target.className; 
         
     // mark player selection
     game.playerMark(playerSelect, playerMarker);
+    display.markerDisplay(playerSelect, playerMarker);
 
     // check winning pattern
-    game.checkRow()
-    game.checkCol()
-    game.checkCross()
+    // game.checkRow()
+    // game.checkCol()
+    // game.checkCross()
 
     // update gameCount
     gameCount += 1;
 
-    // update Marker for next player
-    playerMarker = 'o';
+    // update marker for next player
+    playerMarker = game.changeMarker(playerMarker);
 
     //show board
     game.getBoard();
 
 };
 
+const gameDisplay = () =>{
+
+    // create marker child element
+    const markerElement = (cell) =>{
+        
+        // create child element
+        const markerElement = document.createElement('div');
+        markerElement.setAttribute('class', 'marker');
+
+        // append to the selected cell
+        const htmlSelect = `div[class="${cell}"]`;
+        const htmlCell = document.querySelector(htmlSelect);
+        htmlCell.appendChild(markerElement);
+
+    };
+    
+    // display marker in html
+    const markerDisplay = (cell, marker) =>{
+        
+        // create marker element
+        markerElement(cell);
+
+        // add marker
+        htmlSelect = `div[class="${cell}"]>.marker`;
+        htmlCell = document.querySelector(htmlSelect);
+
+        switch (marker){
+            case 'x':
+                htmlCell.style.backgroundImage = 'url("./Assets/x.png")';
+                break;
+            
+            case 'o':
+                htmlCell.style.backgroundImage = 'url("./Assets/o.png")';
+                break;
+
+            default:
+                htmlCell.style.backgroundImage = '';
+                break;
+        }; 
+    };
+
+    return {markerDisplay};
+};
+
+//  initiate factory functions
 const game = gameBoard();
+const display = gameDisplay();
+
+// initiate control variables
 let gameCount = 0;
 let playerMarker = 'x'
 
