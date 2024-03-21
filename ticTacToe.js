@@ -152,10 +152,17 @@ function gameBoard() {
             return {playerID: 'none', patternID: 'none'};
 
         };
-
     };
 
-    return {playerMark, getBoard, checkRow, checkCol, checkCross, initializeBoard, changeMarker};
+    // disable marking on game area
+    const disableMarker = () =>{
+
+        gameArea = document.querySelector('.game-area');
+        gameArea.removeEventListener('click',gamePlay);
+    };
+
+    return {playerMark, getBoard, checkRow, checkCol, checkCross, 
+            initializeBoard, changeMarker, disableMarker};
 
 };
 
@@ -208,17 +215,26 @@ const gamePlay = (event) => {
         };
     };
 
-    if (playerID != 'none'){
+    // update gameCount
+    gameCount += 1;
+
+    if (playerID != 'none'){ // game won
+
         // display winning style
         display.winDisplay(playerID,patternID);
 
-        // disable game click once done
-        gameArea = document.querySelector('.game-area');
-        gameArea.removeEventListener('click',gamePlay);
+        // disable game click and initialize board
+        game.disableMarker();
+        game.initializeBoard();
+    
+    
+    }else if (gameCount === 9){ // game draw
 
-    }else{
-        // update gameCount
-        gameCount += 1;
+        // disable game click and initialize board
+        game.disableMarker();
+        game.initializeBoard();
+
+    }else{ // game continue
 
         // update marker for next player
         playerMarker = game.changeMarker(playerMarker);
