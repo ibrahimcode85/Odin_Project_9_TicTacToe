@@ -182,7 +182,31 @@ const gamePlay = (event) => {
     display.markerDisplay(playerSelect, playerMarker);
 
     // check winning pattern (sequence: row > col > cross)
-    let {playerID, patternID} = game.checkCross();
+    // break loop if already found winning pattern.
+    for (let i = 0; i < 3; i++){
+        
+        if (i === 0){
+            let checkObj = game.checkRow();
+            playerID = checkObj.playerID;
+            patternID = checkObj.patternID;
+
+            if (playerID != 'none') {break};
+        };
+
+        if (i === 1){
+            let checkObj = game.checkCol();
+            playerID = checkObj.playerID;
+            patternID = checkObj.patternID;
+
+            if (playerID != 'none') {break};
+        };
+
+        if (i === 2){
+            let checkObj = game.checkCross();
+            playerID = checkObj.playerID;
+            patternID = checkObj.patternID;
+        };
+    };
 
     if (playerID != 'none'){
         // display winning style
