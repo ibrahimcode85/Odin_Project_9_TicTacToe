@@ -186,6 +186,23 @@ const gamePlay = (event) => {
 
 const gameDisplay = () =>{
 
+    // initialize display
+    const initializeDisplay = () =>{
+        
+        for (row = 1; row < 4; row++){
+            for (col = 1; col < 4; col++){
+                textSelector = `div[class="${row}-${col}"]`;
+                cell = document.querySelector(textSelector);
+
+                // delete child element 'marker'
+                cell.removeChild(cell.firstElementChild);
+
+                // update id
+                cell.setAttribute('id', '-');
+            };
+        };
+    }
+    
     // create marker child element
     const markerElement = (cell) =>{
         
@@ -231,7 +248,7 @@ const gameDisplay = () =>{
         }; 
     };
 
-    return {markerDisplay};
+    return {markerDisplay, initializeDisplay};
 };
 
 //  initiate factory functions
