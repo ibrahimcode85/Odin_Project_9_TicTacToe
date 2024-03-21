@@ -38,6 +38,10 @@
     justify-content: center;
 }
 
+.grid-container > div[class*="-"]#playerMarked-win{
+    background-color: lightgreen;
+}
+
 .marker{
     width: 50%;
     height: 50%;

@@ -60,11 +60,11 @@ function gameBoard() {
 
             // declare winner
             if (counter_markerX === 3){
-                return {playerID: 'x-marker', patternID: `row-${row}`};
+                return {playerID: 'x', patternID: `row-${row}`};
             };
             
             if (counter_markerO === 3){
-                return {playerID: 'o-marker', patternID: `row-${row}`};
+                return {playerID: 'o', patternID: `row-${row}`};
             };
 
             if (row === 2){
@@ -92,11 +92,11 @@ function gameBoard() {
         
             // declare winner
             if (counter_markerX === 3){
-                return {playerID: 'x-marker', patternID: `col-${col}`};
+                return {playerID: 'x', patternID: `col-${col}`};
             };
             
             if (counter_markerO === 3){
-                return {playerID: 'o-marker', patternID: `col-${col}`};
+                return {playerID: 'o', patternID: `col-${col}`};
             };
 
             if (col === 2){
@@ -137,7 +137,7 @@ function gameBoard() {
             let crossID = (counter1_markerX ===3)? 'cross-1':'cross-2';
 
             // return object
-            return {playerID: 'x-marker', patternID: crossID};
+            return {playerID: 'x', patternID: crossID};
 
         }else if (counter1_markerO === 3 || counter2_markerO === 3){
             
@@ -145,7 +145,7 @@ function gameBoard() {
             let crossID = (counter1_markerO ===3)? 'cross-1':'cross-2';
 
             // return object
-            return {playerID: 'o-marker', patternID: crossID};
+            return {playerID: 'o', patternID: crossID};
 
         }else{
             console.log('Cross check completed. No winner to declare.');
@@ -181,24 +181,20 @@ const gamePlay = (event) => {
     game.playerMark(playerSelect, playerMarker);
     display.markerDisplay(playerSelect, playerMarker);
 
-    // check winning pattern
+    // check winning pattern (sequence: row > col > cross)
     let {playerID, patternID} = game.checkCross();
+
+    if (playerID != 'none'){
+        // display winning style
+        display.winDisplay(playerID,patternID);
+    }else{
+        // update gameCount
+        gameCount += 1;
+
+        // update marker for next player
+        playerMarker = game.changeMarker(playerMarker);
+    };
     
-    
-    console.log(playerID);
-    console.log(patternID);
-    // game.checkCol()
-    // game.checkCross()
-
-    // update gameCount
-    gameCount += 1;
-
-    // update marker for next player
-    playerMarker = game.changeMarker(playerMarker);
-
-    //show board
-    game.getBoard();
-
 };
 
 const gameDisplay = () =>{
@@ -265,7 +261,93 @@ const gameDisplay = () =>{
         }; 
     };
 
-    return {markerDisplay, initializeDisplay};
+    // display winning pattern
+    const winDisplay = (playerId, patternId) =>{
+
+        // get pattern information
+        arrayPatternId = patternId.split('-');
+        
+        // pattern type row, col or cross
+        patternType = arrayPatternId[0];
+
+        // pattern location e.g row/col 0, 1 or 2; or cross 1 or 2
+        patternLoc = Number(arrayPatternId[1]);
+
+        // update display
+        switch (patternType){
+
+            case ('row'):
+                for (col = 1; col < 4; col++){
+
+                    textSelector = `div[class="${patternLoc + 1}-${col}"]>.marker`
+                    cell = document.querySelector(textSelector);
+                    cellParent = cell.parentNode;
+
+                    // update parent id
+                    cellParent.setAttribute('id', 'playerMarked-win');
+
+                    // update image and class based on marker type
+                    if (playerId === 'x'){
+                        cell.style.backgroundImage = 'url("./Assets/x-green.png")';
+                    };
+
+                    if (playerId === 'o'){
+                        cell.style.backgroundImage = 'url("./Assets/o-green.png")';
+                    }; 
+                };
+                break;
+
+            case ('col'):
+
+                for (row = 1; row < 4; row++){
+
+                    textSelector = `div[class="${row}-${patternLoc + 1}"]>.marker`
+                    cell = document.querySelector(textSelector);
+                    cellParent = cell.parentNode;
+
+                    // update parent id
+                    cellParent.setAttribute('id', 'playerMarked-win');
+
+                    // update image and class based on marker type
+                    if (playerId === 'x'){
+                        cell.style.backgroundImage = 'url("./Assets/x-green.png")';
+                    };
+
+                    if (playerId === 'o'){
+                        cell.style.backgroundImage = 'url("./Assets/o-green.png")';
+                    }; 
+                };
+                break;
+
+            case ('cross'):
+                const pattern1 = ['1-1', '2-2', '3-3'];
+                const pattern2 = ['1-3', '2-2', '3-1'];
+                let arrayCell = (patternLoc === 1)? pattern1 : pattern2;
+
+                for (let cell of arrayCell){
+
+                    textSelector = `div[class="${cell}"]>.marker`
+                    cell = document.querySelector(textSelector);
+                    cellParent = cell.parentNode;
+
+                    // update parent id
+                    cellParent.setAttribute('id', 'playerMarked-win');
+
+                    // update image and class based on marker type
+                    if (playerId === 'x'){
+                        cell.style.backgroundImage = 'url("./Assets/x-green.png")';
+                    };
+
+                    if (playerId === 'o'){
+                        cell.style.backgroundImage = 'url("./Assets/o-green.png")';
+                    }; 
+                };
+                break; 
+        };
+
+    };
+
+    return {markerDisplay, initializeDisplay, winDisplay};
 };
 
 //  initiate factory functions
