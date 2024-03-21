@@ -47,29 +47,30 @@ function gameBoard() {
         for (let row = 0; row <3 ; row++){
             
             // initialize counter at start of each row
-            let counter_player1 = 0;
-            let counter_player2 = 0;
+            let counter_markerX = 0;
+            let counter_markerO = 0;
 
             // count element at each column
             for (let col = 0; col <3; col++){
                 cellValue = boardArray[row][col];
 
-                if (cellValue === 'x'){counter_player1++};
-                if (cellValue === 'o'){counter_player2++};
+                if (cellValue === 'x'){counter_markerX++};
+                if (cellValue === 'o'){counter_markerO++};
             };
 
             // declare winner
-            if (counter_player1 === 3){
-                console.log(`Player1 wins in row ${row+1}.`);
-                break;
+            if (counter_markerX === 3){
+                return {playerID: 'x-marker', patternID: `row-${row}`};
             };
             
-            if (counter_player2 === 3){
-                console.log(`Player2 wins in row ${row+1}.`);
-                break;
+            if (counter_markerO === 3){
+                return {playerID: 'o-marker', patternID: `row-${row}`};
             };
 
-            if (row === 2){console.log('Row check completed. No winner to declare.')};
+            if (row === 2){
+                console.log('Row check completed. No winner to declare.');
+                return {playerID: 'none', patternID:'none'};
+            };
         }; 
     }; // end of check row
 
@@ -79,28 +80,29 @@ function gameBoard() {
         for (let col = 0; col <3 ; col++){
 
             // initialize counter at start of each row
-            let counter_player1 = 0;
-            let counter_player2 = 0;
+            let counter_markerX = 0;
+            let counter_markerO = 0;
 
             for (let row = 0; row < 3; row++){
                 cellValue = boardArray[row][col];
 
-                if (cellValue === 'x'){counter_player1++};
-                if (cellValue === 'o'){counter_player2++};
+                if (cellValue === 'x'){counter_markerX++};
+                if (cellValue === 'o'){counter_markerO++};
             };
         
             // declare winner
-            if (counter_player1 === 3){
-                console.log(`Player1 wins in col ${col + 1}.`);
-                break;
+            if (counter_markerX === 3){
+                return {playerID: 'x-marker', patternID: `col-${col}`};
             };
             
-            if (counter_player2 === 3){
-                console.log(`Player2 wins in col ${col + 1}.`);
-                break;
+            if (counter_markerO === 3){
+                return {playerID: 'o-marker', patternID: `col-${col}`};
             };
 
-            if (col === 2){console.log('Col check completed. No winner to declare.')};
+            if (col === 2){
+                console.log('Col check completed. No winner to declare.');
+                return {playerID: 'none', patternID:'none'};
+            };
         };
     }; //end of colCheck
 
@@ -108,11 +110,11 @@ function gameBoard() {
     const checkCross = () =>{
 
         // initialize counter
-        let counter1_player1 = 0; // cross1 pattern (from top-left)
-        let counter1_player2 = 0;
+        let counter1_markerX= 0; // cross1 pattern (from top-left)
+        let counter1_markerO = 0;
 
-        let counter2_player1 = 0; // cross2 pattern (from top-right)
-        let counter2_player2 = 0;
+        let counter2_markerX = 0; // cross2 pattern (from top-right)
+        let counter2_markerO = 0;
 
         //loop cross cells
         for (let i = 0; i < 3; i++){
@@ -120,23 +122,34 @@ function gameBoard() {
             cellValue2 = boardArray[ i ][2 - i]; // cross2 pattern
             
             
-            if (cellValue1 === 'x'){counter1_player1++};
-            if (cellValue1 === 'o'){counter1_player2++};
+            if (cellValue1 === 'x'){counter1_markerX++};
+            if (cellValue1 === 'o'){counter1_markerO++};
 
-            if (cellValue2 === 'x'){counter2_player1++};
-            if (cellValue2 === 'o'){counter2_player2++};
+            if (cellValue2 === 'x'){counter2_markerX++};
+            if (cellValue2 === 'o'){counter2_markerO++};
 
         };
 
         // declare winner
-        if (counter1_player1 === 3 || counter2_player1 === 3){
-            console.log(`Player1 wins on cross pattern.`);
+        if (counter1_markerX === 3 || counter2_markerX === 3){
 
-        }else if (counter1_player2 === 3 || counter2_player2 === 3){
-            console.log(`Player2 wins on cross 1 pattern.`);
+            // identify crossID
+            let crossID = (counter1_markerX ===3)? 'cross-1':'cross-2';
+
+            // return object
+            return {playerID: 'x-marker', patternID: crossID};
+
+        }else if (counter1_markerO === 3 || counter2_markerO === 3){
+            
+            // identify crossID
+            let crossID = (counter1_markerO ===3)? 'cross-1':'cross-2';
+
+            // return object
+            return {playerID: 'o-marker', patternID: crossID};
 
         }else{
-            console.log('Cross pattern check completed. No winner to declare.');
+            console.log('Cross check completed. No winner to declare.');
+            return {playerID: 'none', patternID: 'none'};
 
         };
 
@@ -169,7 +182,11 @@ const gamePlay = (event) => {
     display.markerDisplay(playerSelect, playerMarker);
 
     // check winning pattern
-    // game.checkRow()
+    let {playerID, patternID} = game.checkCross();
+    
+    
+    console.log(playerID);
+    console.log(patternID);
     // game.checkCol()
     // game.checkCross()
 
