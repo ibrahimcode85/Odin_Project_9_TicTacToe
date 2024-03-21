@@ -211,6 +211,11 @@ const gamePlay = (event) => {
     if (playerID != 'none'){
         // display winning style
         display.winDisplay(playerID,patternID);
+
+        // disable game click once done
+        gameArea = document.querySelector('.game-area');
+        gameArea.removeEventListener('click',gamePlay);
+
     }else{
         // update gameCount
         gameCount += 1;
