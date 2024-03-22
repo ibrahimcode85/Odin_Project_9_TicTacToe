@@ -230,6 +230,9 @@ const gamePlay = (event) => {
     
     }else if (gameCount === 9){ // game draw
 
+        // display game-draw style
+        display.drawDisplay();
+
         // disable game click and initialize board
         game.disableMarker();
         game.initializeBoard();
@@ -392,12 +395,19 @@ const gameDisplay = () =>{
 
     };
 
-    return {markerDisplay, initializeDisplay, winDisplay};
+    // game-draw display
+    const drawDisplay = () =>{
+
+        gameArea = document.querySelector('.game-area');
+        gameArea.style.backgroundColor = "rgb(114, 76, 76)";
+    };
+
+    return {markerDisplay, initializeDisplay, winDisplay, drawDisplay};
 };
 
 //  initiate factory functions
 const game = gameBoard();
-const display = gameDisplay();
+const display = gameDisplay();      
 
 // initiate control variables
 let gameCount = 0;
